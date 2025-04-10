@@ -3,234 +3,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mood Tracker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keisha's Calm Corner</title>
   <style>
     body {
-      font-family: 'Patrick Hand', cursive;
-      padding: 20px;
-      transition: background 0.3s, color 0.3s;
-    }
-    .dark {
-      background: #121212;
-      color: #eee;
-    }
-    .toggle {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 10px;
-    }
-    nav a {
-      margin-right: 10px;
-      text-decoration: none;
-    }
-    .mood-container {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .mood {
-      padding: 10px;
-      border-radius: 10px;
-      cursor: pointer;
+      background-color: #fff8f5;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       text-align: center;
-      width: 80px;
+      padding: 50px 20px;
     }
-    .mood-response, .micro-journal, .affirmation, .therapy-tools, .milestones, .mood-history {
-      margin-top: 20px;
-      background: #f4f4f4;
-      padding: 15px;
-      border-radius: 10px;
+    h1 {
+      color: #d16ba5;
+      font-size: 2.5em;
     }
-    .hidden {
-      display: none;
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
     }
-    textarea {
-      width: 100%;
-      padding: 5px;
+    button {
+      background-color: #d16ba5;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Mood</a>
-    <a href="#">Journal</a>
-    <a href="#">Reframe</a>
-    <a href="#">Affirm</a>
-    <a href="#">Breathe</a>
-  </nav>
-
-  <h2>How are you feeling today?</h2>
-  <div class="mood-container">
-    <div class="mood" style="background:#ffefef;"><span>😄</span><div class="label">Happy</div></div>
-    <div class="mood" style="background:#e0f7fa;"><span>😌</span><div class="label">Calm</div></div>
-    <div class="mood" style="background:#fff9c4;"><span>😟</span><div class="label">Anxious</div></div>
-    <div class="mood" style="background:#e1bee7;"><span>😢</span><div class="label">Sad</div></div>
-    <div class="mood" style="background:#ffe0b2;"><span>😠</span><div class="label">Angry</div></div>
+  <h1>Keisha's Calm Corner</h1>
+  <div class="button-container">
+    <button onclick="location.href='mood.html'">Mood</button>
+    <button onclick="location.href='journal.html'">Journal</button>
+    <button onclick="location.href='reframe.html'">Reframe</button>
+    <button onclick="location.href='affirmation.html'">Affirm</button>
+    <button onclick="location.href='breathe.html'">Breathe</button>
   </div>
-
-  <div id="mood-response" class="mood-response hidden">
-    <h3>You selected: <span id="selected-mood"></span></h3>
-    <p id="mood-question"></p>
-    <button id="tool-suggestion"></button>
-    <div class="cbt-prompt">
-      <h4>Try This:</h4>
-      <p id="cbt-text"></p>
-    </div>
-  </div>
-
-  <div class="micro-journal">
-    <p>Quick Reflection: <span id="microPrompt"></span></p>
-    <textarea id="microJournal" placeholder="Type your thought..." rows="2"></textarea>
-    <button onclick="saveJournal()">Save Reflection</button>
-  </div>
-
-  <div class="affirmation">
-    <h4>Your Affirmation</h4>
-    <p id="affirmationText"></p>
-  </div>
-
-  <div class="mood-history">
-    <h3>Your Mood Pattern</h3>
-    <canvas id="moodChart" width="300" height="150"></canvas>
-  </div>
-
-  <div id="mood-history-list"></div>
-
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-    }
-
-    const moodElements = document.querySelectorAll('.mood');
-    const moodResponse = document.getElementById('mood-response');
-    const selectedMoodSpan = document.getElementById('selected-mood');
-    const moodQuestion = document.getElementById('mood-question');
-    const toolButton = document.getElementById('tool-suggestion');
-    const cbtText = document.getElementById('cbt-text');
-    const microPromptSpan = document.getElementById('microPrompt');
-    const affirmationText = document.getElementById('affirmationText');
-
-    const moodData = {
-      Happy: {
-        question: "What made you feel happy today?",
-        tool: "Gratitude Journal",
-        cbt: "Take a moment to savor this feeling. Can you write it down and revisit it later?"
-      },
-      Calm: {
-        question: "What helped you feel calm today?",
-        tool: "Breathing Exercise",
-        cbt: "Notice your body and surroundings. Let this sense of calm ground you."
-      },
-      Anxious: {
-        question: "What’s on your mind right now?",
-        tool: "Reframe Thoughts",
-        cbt: "Try to identify one thought that’s making you anxious. Is it 100% true?"
-      },
-      Sad: {
-        question: "Would writing about this help?",
-        tool: "Journal",
-        cbt: "It’s okay to feel sad. Can you name what’s underneath the sadness?"
-      },
-      Angry: {
-        question: "What triggered your anger today?",
-        tool: "Reframe or Breathe",
-        cbt: "What need of yours wasn’t met? Let’s reflect instead of react."
-      }
-    };
-
-    const microPrompts = {
-      Happy: "What brought you this joy today?",
-      Sad: "What's one thing you wish was different?",
-      Angry: "What would help you feel heard?",
-      Anxious: "Is there something you can let go of today?",
-      Calm: "Can you remember what brought this calm?"
-    };
-
-    const affirmations = {
-      Sad: ["I am allowed to feel what I feel.", "This moment will pass."],
-      Happy: ["I deserve this joy.", "Let it linger a little longer."],
-      Anxious: ["I am safe in this moment.", "I can take things one step at a time."],
-      Angry: ["My boundaries matter.", "It’s okay to pause before responding."],
-      Calm: ["This peace is mine to return to.", "I breathe in calm, I breathe out tension."]
-    };
-
-    const moodColors = {
-      Happy: '#ffefef',
-      Calm: '#e0f7fa',
-      Anxious: '#fff9c4',
-      Sad: '#e1bee7',
-      Angry: '#ffe0b2'
-    };
-
-    moodElements.forEach(el => {
-      el.addEventListener('click', () => {
-        const mood = el.querySelector('.label').textContent;
-        selectedMoodSpan.textContent = mood;
-        moodQuestion.textContent = moodData[mood].question;
-        toolButton.textContent = moodData[mood].tool;
-        cbtText.textContent = moodData[mood].cbt;
-        microPromptSpan.textContent = microPrompts[mood];
-        affirmationText.textContent = affirmations[mood][Math.floor(Math.random() * affirmations[mood].length)];
-        moodResponse.classList.remove('hidden');
-        saveMood(mood);
-        renderHistory();
-      });
-    });
-
-    function saveMood(mood) {
-      const moodLog = JSON.parse(localStorage.getItem('moodLog')) || [];
-      moodLog.push({ mood, date: new Date().toISOString() });
-      localStorage.setItem('moodLog', JSON.stringify(moodLog));
-    }
-
-    function saveJournal() {
-      const entry = document.getElementById('microJournal').value;
-      const journalLog = JSON.parse(localStorage.getItem('journalLog')) || [];
-      journalLog.push({ entry, date: new Date().toISOString() });
-      localStorage.setItem('journalLog', JSON.stringify(journalLog));
-      alert('Saved!');
-    }
-
-    function renderHistory() {
-      const moodLog = JSON.parse(localStorage.getItem('moodLog')) || [];
-      const ctx = document.getElementById('moodChart').getContext('2d');
-      const labels = moodLog.slice(-7).map(log => new Date(log.date).toLocaleDateString());
-      const data = moodLog.slice(-7).map(log => Object.keys(moodColors).indexOf(log.mood));
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Mood This Week',
-            data,
-            borderColor: '#888',
-            backgroundColor: 'rgba(200,200,255,0.1)',
-            fill: true,
-            pointBackgroundColor: moodLog.slice(-7).map(log => moodColors[log.mood])
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              min: 0,
-              max: 4,
-              ticks: {
-                stepSize: 1,
-                callback: i => Object.keys(moodColors)[i]
-              }
-            }
-          }
-        }
-      });
-    }
-
-    renderHistory();
-  </script>
 </body>
 </html>
