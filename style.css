@@ -1,50 +1,170 @@
-body {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  background: linear-gradient(to top, #fddde6, #a3d5ff);
-  color: #333;
-  text-align: center;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fef9f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
 header {
-  background: #ffe5f0;
-  padding: 1em 0;
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #ffebd8;
+  border-radius: 10px;
+  margin-bottom: 2rem;
 }
+
+header h1 {
+  font-size: 2.5rem;
+  color: #444;
+}
+
+nav ul {
+  list-style: none;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
 nav a {
-  margin: 0 15px;
   text-decoration: none;
-  color: #ff7f50;
-  font-weight: bold;
+  color: #665c5c;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background-color: #fff6ec;
+  transition: background-color 0.3s ease;
 }
-.main-img {
-  width: 200px;
-  margin-top: 20px;
+
+nav a:hover {
+  background-color: #ffe3c9;
 }
-.task-list {
-  list-style-type: none;
-  padding: 0;
+
+main .welcome {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #fffdf9;
+  border-radius: 10px;
 }
-.task-list li {
-  background: #fff3cd;
-  margin: 10px auto;
-  width: 80%;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 1.1em;
+
+footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
 }
-.bubble {
+
+.mood-tracker {
+  text-align: center;
+  padding: 1rem;
+}
+
+.mood-options {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.mood-options button {
+  font-size: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffe3c9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mood-options button:hover {
+  background-color: #ffd2a0;
+}
+
+.journal {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+textarea#journal-entry {
+  width: 100%;
+  height: 200px;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 1rem 0;
+  background: #fffaf5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.buttons button {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  background-color: #ffe3c9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #ffd2a0;
+}
+
+.affirmations {
+  text-align: center;
+  padding: 2rem;
+}
+
+.affirmations p {
+  font-size: 1.5rem;
+  margin: 2rem 0;
+  color: #444;
+}
+
+.affirmations button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  background-color: #ffe3c9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.affirmations button:hover {
+  background-color: #ffd2a0;
+}
+
+.breathe {
+  text-align: center;
+  padding: 2rem;
+}
+
+.circle {
+  margin: 2rem auto;
   width: 100px;
   height: 100px;
-  margin: 20px auto;
-  background-color: #a3d5ff;
+  background-color: #ffd2a0;
   border-radius: 50%;
-  animation: breathe 6s infinite;
+  animation: breathe 8s infinite ease-in-out;
 }
+
 @keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.5); opacity: 1; }
-}
-canvas {
-  border: 2px dashed #ffb6c1;
-  cursor: crosshair;
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.8); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
 }

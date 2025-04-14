@@ -4,30 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mood Tracker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="mood.html">Mood</a>
-    <a href="journal.html">Journal</a>
-    <a href="reframing.html">Reframe</a>
-    <a href="affirmations.html">Affirm</a>
-    <a href="breathing.html">Breathe</a>
-  </nav>
-  <h2>How are you feeling today?</h2>
-  <div class="mood-container">
-    <div class="mood" style="background:#ffefef;"><span>😄</span><div class="label">Happy</div></div>
-    <div class="mood" style="background:#e0f7fa;"><span>😌</span><div class="label">Calm</div></div>
-    <div class="mood" style="background:#fff9c4;"><span>😟</span><div class="label">Anxious</div></div>
-    <div class="mood" style="background:#e1bee7;"><span>😢</span><div class="label">Sad</div></div>
-    <div class="mood" style="background:#ffe0b2;"><span>😠</span><div class="label">Angry</div></div>
-  </div>
+  <header>
+    <h1>How Are You Feeling Today?</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a href="affirmations.html">Affirmations</a></li>
+        <li><a href="breathe.html">Breathe</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="mood-tracker">
+    <h2>Select Your Mood</h2>
+    <div class="mood-options">
+      <button onclick="saveMood('Happy')">😊 Happy</button>
+      <button onclick="saveMood('Sad')">😢 Sad</button>
+      <button onclick="saveMood('Calm')">😌 Calm</button>
+      <button onclick="saveMood('Angry')">😠 Angry</button>
+      <button onclick="saveMood('Tired')">😴 Tired</button>
+    </div>
+    <p id="mood-output"></p>
+  </main>
+  <footer>
+    <p>Tracking your feelings is a form of self-love.</p>
+  </footer>
   <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
+    function saveMood(mood) {
+      localStorage.setItem('todayMood', mood);
+      document.getElementById('mood-output').textContent = `You selected: ${mood}`;
+    }
+    const savedMood = localStorage.getItem('todayMood');
+    if (savedMood) {
+      document.getElementById('mood-output').textContent = `Your mood today: ${savedMood}`;
     }
   </script>
 </body>

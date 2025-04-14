@@ -4,165 +4,50 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Journal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-light: #f0f6ff;
-      --bg-dark: #1e1e2e;
-      --text-light: #333;
-      --text-dark: #f5f5f5;
-      --accent-light: #a2c2f0;
-      --accent-dark: #4e6e8e;
-    }
-
-    body {
-      font-family: 'Patrick Hand', cursive;
-      background: var(--bg-light);
-      color: var(--text-light);
-      margin: 0;
-      padding: 20px;
-      transition: background 0.3s, color 0.3s;
-    }
-    body.dark {
-      background: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      background: #db7093;
-      color: #fff;
-      padding: 8px 14px;
-      border-radius: 12px;
-      transition: background 0.3s;
-      font-size: 16px;
-    }
-    nav a:hover {
-      background: #e77fa2;
-    }
-    .dark nav a {
-      background: #444;
-    }
-
-    .toggle {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      background: #db7093;
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .dark .toggle {
-      background: #666;
-    }
-
-    h2 {
-      text-align: center;
-      color: #5b7db1;
-      margin-bottom: 20px;
-    }
-    .dark h2 {
-      color: #a1c4fd;
-    }
-
-    textarea {
-      width: 100%;
-      max-width: 500px;
-      height: 150px;
-      padding: 12px;
-      border: 2px solid var(--accent-light);
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      font-family: 'Patrick Hand', cursive;
-      font-size: 16px;
-      resize: none;
-      display: block;
-      margin: 0 auto;
-      transition: border-color 0.3s;
-    }
-    .dark textarea {
-      border-color: var(--accent-dark);
-    }
-
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 24px;
-      background: var(--accent-light);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: 'Patrick Hand', cursive;
-      font-size: 18px;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #90b4ec;
-    }
-    .dark button {
-      background: var(--accent-dark);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      max-width: 500px;
-      margin: 20px auto 0;
-    }
-    li {
-      background: #fff;
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: background 0.3s, color 0.3s;
-    }
-    .dark li {
-      background: #2a2a3d;
-      color: #ddd;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button class="toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="mood.html">Mood</a>
-    <a href="journal.html">Journal</a>
-    <a href="reframing.html">Reframe</a>
-    <a href="affirmations.html">Affirm</a>
-    <a href="breathing.html">Breathe</a>
-  </nav>
-
-  <h2>Journal</h2>
-  <textarea id="entry" placeholder="Write here..."></textarea>
-  <button onclick="saveEntry()">Save</button>
-  <ul id="entries"></ul>
-
+  <header>
+    <h1>Your Journal</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mood.html">Mood Tracker</a></li>
+        <li><a href="affirmations.html">Affirmations</a></li>
+        <li><a href="breathe.html">Breathe</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="journal">
+    <h2>Write Your Thoughts</h2>
+    <textarea id="journal-entry" placeholder="Dear Journal..."></textarea>
+    <div class="buttons">
+      <button onclick="saveJournal()">Save</button>
+      <button onclick="clearJournal()">Clear</button>
+    </div>
+    <p id="status"></p>
+  </main>
+  <footer>
+    <p>Every word you write is part of your healing.</p>
+  </footer>
   <script>
-    function saveEntry() {
-      const entry = document.getElementById("entry").value.trim();
-      if (!entry) return;
-      const li = document.createElement("li");
-      li.textContent = entry;
-      document.getElementById("entries").appendChild(li);
-      document.getElementById("entry").value = "";
+    const journalBox = document.getElementById('journal-entry');
+    const statusText = document.getElementById('status');
+    window.onload = function() {
+      const saved = localStorage.getItem('journalEntry');
+      if (saved) {
+        journalBox.value = saved;
+        statusText.textContent = "Loaded saved entry.";
+      }
+    };
+    function saveJournal() {
+      localStorage.setItem('journalEntry', journalBox.value);
+      statusText.textContent = "Entry saved!";
     }
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
+    function clearJournal() {
+      journalBox.value = '';
+      localStorage.removeItem('journalEntry');
+      statusText.textContent = "Entry cleared.";
     }
   </script>
 </body>
